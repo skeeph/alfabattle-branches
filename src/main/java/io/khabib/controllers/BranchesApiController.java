@@ -42,7 +42,7 @@ public class BranchesApiController implements BranchesApi {
 
     public ResponseEntity<Branches> getBranchUsingGET(@ApiParam(value = "id", required = true) @PathVariable("id") Long id) throws NotFoundException {
         return branchesService.getBranch(id).map(x -> new ResponseEntity<Branches>(x, HttpStatus.OK))
-                .orElseThrow(()->new NotFoundException(404, "branch not found"));
+                .orElseThrow(() -> new NotFoundException(404, "branch not found"));
     }
 
     public ResponseEntity<BranchesWithPredicting> getBranchesWithPredictingUsingGET(@NotNull @ApiParam(value = "dayOgWeek", required = true) @Valid @RequestParam(value = "dayOgWeek", required = true) Integer dayOgWeek, @NotNull @ApiParam(value = "hourOfDay", required = true) @Valid @RequestParam(value = "hourOfDay", required = true) Integer hourOfDay, @ApiParam(value = "id", required = true) @PathVariable("id") Long id) {
@@ -59,18 +59,11 @@ public class BranchesApiController implements BranchesApi {
         return new ResponseEntity<BranchesWithPredicting>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Branches> getNearBranchUsingGET(@NotNull @ApiParam(value = "lat", required = true) @Valid @RequestParam(value = "lat", required = true) Double lat, @NotNull @ApiParam(value = "lon", required = true) @Valid @RequestParam(value = "lon", required = true) Double lon) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Branches>(objectMapper.readValue("{  \"address\" : \"address\",  \"lon\" : 1.4658129805029452,  \"id\" : 0,  \"title\" : \"title\",  \"lat\" : 6.027456183070403}", Branches.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Branches>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<Branches>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Branches> getNearBranchUsingGET(
+            @NotNull @ApiParam(value = "lat", required = true) @Valid @RequestParam(value = "lat", required = true) Double lat,
+            @NotNull @ApiParam(value = "lon", required = true) @Valid @RequestParam(value = "lon", required = true) Double lon) throws NotFoundException {
+        return branchesService.getNearest(lat, lon).map(x -> new ResponseEntity<Branches>(x, HttpStatus.OK))
+                .orElseThrow(() -> new NotFoundException(404, "branch not found"));
     }
 
 }

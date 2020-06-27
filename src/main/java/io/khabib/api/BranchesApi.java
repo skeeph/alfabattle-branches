@@ -50,6 +50,6 @@ public interface BranchesApi {
     @RequestMapping(value = "/branches",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Branches> getNearBranchUsingGET(@NotNull @ApiParam(value = "lat", required = true) @Valid @RequestParam(value = "lat", required = true) Double lat,@NotNull @ApiParam(value = "lon", required = true) @Valid @RequestParam(value = "lon", required = true) Double lon);
+    ResponseEntity<Branches> getNearBranchUsingGET(@NotNull @ApiParam(value = "lat", required = true) @Valid @RequestParam(value = "lat", required = true) Double lat,@NotNull @ApiParam(value = "lon", required = true) @Valid @RequestParam(value = "lon", required = true) Double lon) throws NotFoundException;
 
 }
