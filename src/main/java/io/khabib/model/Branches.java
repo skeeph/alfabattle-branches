@@ -1,6 +1,8 @@
 package io.khabib.model;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-06-27T10:55:57.660Z")
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Branches   {
   @JsonProperty("address")
   private String address = null;
@@ -26,6 +28,9 @@ public class Branches   {
 
   @JsonProperty("title")
   private String title = null;
+
+  @JsonProperty("distance")
+  private Long distance = null;
 
   public Branches address(String address) {
     this.address = address;
@@ -127,6 +132,15 @@ public class Branches   {
     this.title = title;
   }
 
+
+  @ApiModelProperty(value = "")
+  public Long getDistance() {
+    return distance;
+  }
+
+  public void setDistance(Long distance) {
+    this.distance = distance;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
